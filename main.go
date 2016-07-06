@@ -28,7 +28,7 @@ Written by Brendan Anderson
 
 `
 	// VERSION of the application.
-	VERSION = "v0.1.0"
+	VERSION = "v0.2.0"
 )
 
 var (

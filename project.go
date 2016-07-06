@@ -51,6 +51,8 @@ func NewProjectFromMap(mp map[string]interface{}) *Project {
 		project.Fetcher = fetcher.NewGitFetcher(
 			source, destination, rename, version,
 		)
+	case "local":
+		project.Fetcher = fetcher.NewLocalFetcher(source, destination)
 	case "zip":
 		fallthrough
 	default:

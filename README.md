@@ -67,7 +67,8 @@ You need to tell tasc how to assemble your project witha YAML formatted
 # Code to fetch and assemble.
 projects:
   -
-    # How are we going to use to fetch the code? Options are git and zip.
+    # How are we going to use to fetch the code?
+    # Options are git, zip, and local.
     provider: git
 
     # For git, we want the http URI of the git repo.
@@ -109,6 +110,11 @@ projects:
     - provider: zip
       source: "https://moodle.org/plugins/download.php/8086/format_grid_moodle28_2015022500.zip"
       destination: course/format
+
+    # The local provider simply gets files from the filesystem.
+    - provider: local
+      source: "{manifest_dir}/customfiles"
+      destination: "{destination_dir}/custom"
 
 # Should we perform any patches once the code is assembled?
 patches:
