@@ -43,7 +43,7 @@ var (
 func init() {
 	var extraParamsJSON string
 
-	flag.StringVar(&manifestFilename, "manifest", "manifest.yml",
+	flag.StringVar(&manifestFilename, "manifest", "tasc-manifest.yml",
 		"Name of the manifest file.")
 	flag.StringVar(&destinationDir, "destination", "./",
 		"Where to build the project")
