@@ -51,8 +51,18 @@ func (lf *LocalFetcher) Fetch(baseDir string, wg *sync.WaitGroup) error {
 
 	switch mode := info.Mode(); {
 	case mode.IsDir():
+		err = os.MkdirAll(lf.destination, 0755)
+		if err != nil {
+			return err
+		}
+
 		CopyDir(lf.source, lf.destination)
 	case mode.IsRegular():
+		err = os.MkdirAll(filepath.Dir(lf.destination), 0755)
+		if err != nil {
+			return err
+		}
+
 		CopyFile(lf.source, lf.destination)
 	}
 
