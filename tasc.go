@@ -14,15 +14,13 @@ type Tasc struct {
 }
 
 // Fetch fetches the project and updates the progress.
-func Fetch(proj *Project, dest string, prog *Progress, wg *sync.WaitGroup) {
+func Fetch(proj *Project, dest string, prog *Progress) {
 	prog.Add(proj, StateProcessing).Report()
 	if err := proj.Fetcher.Fetch(dest); err != nil {
 		prog.Add(proj, StateFailed).Report()
 	} else {
 		prog.Add(proj, StateSuccess).Report()
 	}
-
-	wg.Done()
 }
 
 // Assemble the source code for the project.
@@ -39,14 +37,16 @@ func (t *Tasc) Assemble(c chan string) {
 	// First lets work through the synchronous projects.
 	sort.Sort(sProjs)
 	for _, sProj := range sProjs {
-		Fetch(sProj, t.destination, progress, wg)
+		Fetch(sProj, t.destination, progress)
+		wg.Done()
 	}
 
 	// Now the asyncronous ones.
 	sort.Sort(aProjs)
 	for _, aProj := range aProjs {
 		go func(p *Project) {
-			Fetch(p, t.destination, progress, wg)
+			Fetch(p, t.destination, progress)
+			wg.Done()
 		}(aProj)
 	}
 
