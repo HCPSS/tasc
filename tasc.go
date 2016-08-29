@@ -16,11 +16,13 @@ type Tasc struct {
 // Fetch fetches the project and updates the progress.
 func Fetch(proj *Project, dest string, prog *Progress, wg *sync.WaitGroup) {
 	prog.Add(proj, StateProcessing).Report()
-	if err := proj.Fetcher.Fetch(dest, wg); err != nil {
+	if err := proj.Fetcher.Fetch(dest); err != nil {
 		prog.Add(proj, StateFailed).Report()
 	} else {
 		prog.Add(proj, StateSuccess).Report()
 	}
+
+	wg.Done()
 }
 
 // Assemble the source code for the project.

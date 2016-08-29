@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"sync"
 
 	"github.com/pivotal-golang/archiver/extractor"
 )
@@ -58,7 +57,7 @@ func (af *ArchiveFetcher) downloadFile() (*os.File, error) {
 }
 
 // Fetch the source code. Required by the Fetcher interface.
-func (af *ArchiveFetcher) Fetch(baseDir string, wg *sync.WaitGroup) error {
+func (af *ArchiveFetcher) Fetch(baseDir string) error {
 	file, err := af.downloadFile()
 	if err != nil {
 		return err
@@ -71,7 +70,6 @@ func (af *ArchiveFetcher) Fetch(baseDir string, wg *sync.WaitGroup) error {
 
 	// Clean up
 	os.Remove(file.Name())
-	wg.Done()
 
 	return nil
 }

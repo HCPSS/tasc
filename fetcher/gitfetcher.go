@@ -2,7 +2,6 @@ package fetcher
 
 import (
 	"path/filepath"
-	"sync"
 	"time"
 
 	"github.com/gogits/git-module"
@@ -38,9 +37,7 @@ func (gf *GitFetcher) GetDestination() string {
 }
 
 // Fetch fetches the source code and is required by the Fetcher interface.
-func (gf *GitFetcher) Fetch(baseDir string, wg *sync.WaitGroup) error {
-	defer wg.Done()
-
+func (gf *GitFetcher) Fetch(baseDir string) error {
 	dest := filepath.Join(baseDir, gf.destination, gf.rename)
 	cro := git.CloneRepoOptions{Timeout: time.Minute * 5}
 	err := git.Clone(gf.source, dest, cro)

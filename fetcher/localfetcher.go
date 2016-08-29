@@ -4,7 +4,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"sync"
 )
 
 // LocalFetcher fetches local files
@@ -35,9 +34,7 @@ func (lf *LocalFetcher) GetDestination() string {
 }
 
 // Fetch fetches the source code and is required by the Fetcher interface.
-func (lf *LocalFetcher) Fetch(baseDir string, wg *sync.WaitGroup) error {
-	defer wg.Done()
-
+func (lf *LocalFetcher) Fetch(baseDir string) error {
 	s, err := os.Open(lf.source)
 	if err != nil {
 		return err
