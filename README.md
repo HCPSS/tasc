@@ -14,7 +14,8 @@ which projects should go where.
 ## Dependendies
 
 [Git](https://git-scm.com/downloads "Git downloads") (if you want to fetch code
-with git) and [GNU Patch](http://www.gnu.org/s/patch/ "GNU Patch project page")
+with git), [Unzip](https://linux.die.net/man/1/unzip "Unzip manual") (for fetching archives), 
+and [GNU Patch](http://www.gnu.org/s/patch/ "GNU Patch project page")
 (if you want to apply patches).
 
 ## Installation
