@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pivotal-golang/archiver/extractor"
+	"code.cloudfoundry.org/archiver/extractor"
 )
 
 // ArchiveFetcher fetches source code from a remote archive.

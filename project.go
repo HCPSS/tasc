@@ -31,6 +31,22 @@ func (c SortProject) Less(i, j int) bool {
 	return c[j].Sticky
 }
 
+// InferProjectName tries to figure out the project's name.
+func InferProjectName(mp map[string]interface{}) string {
+	rename, _ := mp["rename"].(string)
+	if rename != "" {
+		return rename
+	}
+
+	source, _ := mp["source"].(string)
+	tokens := strings.Split(source, "/")
+	if tokens[len(tokens)-1] != "" {
+		return tokens[len(tokens)-1]
+	}
+
+	return "No Name"
+}
+
 // NewProjectFromMap creates a new Project from a map.
 func NewProjectFromMap(mp map[string]interface{}) *Project {
 	project := new(Project)
@@ -39,8 +55,7 @@ func NewProjectFromMap(mp map[string]interface{}) *Project {
 	destination, _ := mp["destination"].(string)
 
 	// Name
-	tokens := strings.Split(source, "/")
-	project.Name = tokens[len(tokens)-1]
+	project.Name = InferProjectName(mp)
 
 	// Fetcher
 	switch mp["provider"] {
@@ -49,6 +64,13 @@ func NewProjectFromMap(mp map[string]interface{}) *Project {
 		version, _ := mp["version"].(string)
 
 		project.Fetcher = fetcher.NewGitFetcher(
+			source, destination, rename, version,
+		)
+	case "svn":
+		rename, _ := mp["rename"].(string)
+		version, _ := mp["version"].(string)
+
+		project.Fetcher = fetcher.NewSvnFetcher(
 			source, destination, rename, version,
 		)
 	case "local":
